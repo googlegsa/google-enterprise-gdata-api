@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Google.GData.Gsa</name>
+    </assembly>
+    <members>
+        <member name="T:Google.GData.Gsa.GsaService">
+            <summary>
+            The GsaService class extends the basic Service abstraction
+            to define a service that is preconfigured for access to the
+            Google Search Appliance data API.
+            </summary>
+        </member>
+        <member name="F:Google.GData.Gsa.GsaService.GSAService">
+            <summary>The Google Search Appliance service's name</summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Constructs an instance connecting to the GSA server.
+            </summary>
+            <param name="address">the address of the GSA server</param>
+            <param name="username">the name of the user</param>
+            <param name="password">the password of the user</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.#ctor(System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs an instance connecting to the GSA server.
+            </summary>
+            <param name="address">the address of the GSA server</param>
+            <param name="port">the port of the GSA server</param>
+            <param name="username">the name of the user</param>
+            <param name="password">the password of the user</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.#ctor(System.String,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Constructs an instance connecting to the GSA server.
+            </summary>
+            <param name="protocol"></param>
+            <param name="address">the address of the GSA server</param>
+            <param name="port">the port of the GSA server</param>
+            <param name="username">the name of the user</param>
+            <param name="password">the password of the user</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.OnRequestFactoryChanged">
+            <summary>
+            notifier if someone changes the requestfactory of the service
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.OnNewFeed(System.Object,Google.GData.Client.ServiceEventArgs)">
+            <summary>eventchaining. We catch this by from the base service, which 
+            would not by default create an atomFeed</summary> 
+            <param name="sender"> the object which send the event</param>
+            <param name="e">FeedParserEventArguments, holds the feedentry</param> 
+            <returns> </returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.UriDoubleEncode(System.String)">
+            <summary>
+            Double encode the string.
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetFeedUri(System.String)">
+            <summary>
+            Creates a URI string based on the feed name.
+            </summary>
+            <param name="feedName">name of the feed, to be appended to the URI</param>
+            <returns>a URI string by concatenating feed name with header, address, port, etc.</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetFeedUri(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates a URI string based on the feed name and query parameters.
+            </summary>
+            <param name="feedName">name of the feed to be appended to the URI</param>
+            <param name="queries">Dictionary of query parameters</param>
+            <returns>a URI string by concatenating different parts of the URI</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetEntryUri(System.String,System.String)">
+            <summary>
+            Creates a URI string based on the feed name and the entry ID.
+            </summary>
+            <param name="feedName">name of the feed to be appended to the URI</param>
+            <param name="entryId">ID of the entry, to be appended to the URI</param>
+            <returns>a URI string by concatenating different parts of the URI</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetEntryUri(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates a URI string based on the feed name, the entry ID and query parameters.
+            </summary>
+            <param name="feedName">name of the feed to be appended to the URI</param>
+            <param name="entryId">ID of the entry, to be appended to the URI</param>
+            <param name="queries">Dictionary of query parameters</param>
+            <returns>a URI string by concatenating different parts of the URI</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetFeed(System.String)">
+            <summary>
+            Creates an instance of the feed identified by the feed name.
+            </summary>
+            <param name="feedName">name of the feed</param>
+            <returns>an instance of the feed</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.QueryFeed(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Creates a feed whose entries are filtered based on the query parameters.
+            </summary>
+            <param name="feedName">name of the feed</param>
+            <param name="queries">Dictionary of query parameters</param>
+            <returns>a feed containing the filtered entries</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.GetEntry(System.String,System.String)">
+            <summary>
+            Returns an entry from the feed provider.
+            </summary>
+            <param name="feedName">name of the feed containing the entry</param>
+            <param name="entryId">ID of the entry to fetch from the feed provider</param>
+            <returns>an entry corresponding to data fetched from the server</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.QueryEntry(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Returns an entry from the feed provider which is filtered
+            based on the query parameters.
+            </summary>
+            <param name="feedName">name of the feed containing the entry</param>
+            <param name="entryId">ID of the entry to fetch from the feed provider</param>
+            <param name="queries">Dictionary of query parameters</param>
+            <returns>an entry corresponding to data fetched from the server</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.InsertEntry(System.String,Google.GData.Gsa.GsaEntry)">
+            <summary>
+            Inserts an entry into a feed provider.
+            </summary>
+            <param name="feedName">name of the feed provider in which to insert the entry</param>
+            <param name="entry">entry representation of the data to insert into the server</param>
+            <returns>an entry representing the data successfully inserted into server</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.UpdateEntry(System.String,System.String,Google.GData.Gsa.GsaEntry)">
+            <summary>
+            Invokes the update function on the server's feed provider.
+            </summary>
+            <param name="feedName">name of the feed containing the entry</param>
+            <param name="entryId">ID of the entry to update</param>
+            <param name="updateEntry">entry object containing the data to be updated to the server</param>
+            <returns>an entry corresponding to data successfully updated in the server</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaService.DeleteEntry(System.String,System.String)">
+            <summary>
+            Invokes the delete function on the server's feed provider.
+            </summary>
+            <param name="feedName">name of the feed containing the entry</param>
+            <param name="entryId">ID of the entry to delete</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Google.GData.Gsa.GsaExtension" -->
+        <member name="M:Google.GData.Gsa.GsaExtension.#ctor">
+            <summary>
+            Constructs an empty GsaExtension instance
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaExtension.#ctor(System.String,System.String)">
+            <summary>
+            Constructs an empty GsaExtension with provided data.
+            </summary>
+            <param name="name">content name</param>
+            <param name="value">content value</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaExtension.CreateInstance(System.Xml.XmlNode,Google.GData.Client.AtomFeedParser)">
+            <summary>Parses an xml node to create a GsaExtension object.</summary> 
+            <param name="node">the node to parse node</param>
+            <param name="parser">the xml parser to use if we need to dive deeper</param>
+            <returns>the created GsaExtension object</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaExtension.Save(System.Xml.XmlWriter)">
+            <summary>
+            Persistence method for the GsaExtension object
+            </summary>
+            <param name="writer">the xmlwriter to write into</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaExtension.EscapeXml(System.String)">
+            <summary>Escapes XML-specific characters in a string.</summary>
+            <param name="inString">input string, which may or may not contain XML special characters</param>
+            <returns>String with all special characters escaped</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaExtension.UnescapeXml(System.String)">
+            <summary>Un-escapes XML escape sequences in a string.</summary>
+            <param name="xmlString">input string, which may or may not contain XML escape sequences</param>
+            <returns>String with all escape sequences un-escaped</returns>
+        </member>
+        <member name="P:Google.GData.Gsa.GsaExtension.XmlName">
+            <summary>returns the XML local name that is used</summary> 
+        </member>
+        <member name="P:Google.GData.Gsa.GsaExtension.XmlNameSpace">
+            <summary>returns the XML namespace that is processed</summary> 
+        </member>
+        <member name="P:Google.GData.Gsa.GsaExtension.XmlPrefix">
+            <summary>returns the xml prefix used</summary> 
+        </member>
+        <member name="T:Google.GData.Gsa.GsaFeed">
+            <summary>
+            The base feed class for the Google Search Appliance.
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaFeed.#ctor(System.Uri,Google.GData.Client.IService)">
+            <summary>
+             default constructor
+            </summary>
+            <param name="uriBase">the base URI of the feedEntry</param>
+            <param name="iService">the Service to use</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaFeed.CreateFeedEntry">
+            <summary>
+            return GsaEntry relative to GsaFeed
+            </summary>
+            <returns>GsaEntry</returns>
+        </member>
+        <member name="T:Google.GData.Gsa.GsaEntry">
+            <summary>
+            Base entry class for the Google Search Appliance API.
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaEntry.#ctor">
+            <summary>
+            Constructs a new GsaEntry instance
+            </summary>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaEntry.AddGsaContent(System.String,System.String)">
+            <summary>
+            Add another set of extension data to the entry.  Each GSA extension stores 
+            the content as a mixed text/XML content of this XML tag.
+            addGsaContent does not support repeating extension data with 
+            the same extension name.  Even though addGsaContent will successfully
+            add repeating extensions, there is no guarantee which of the repeating
+            extensions with the same extension name will be returned by methods
+            GetGsaContent() and GetAllGsaContents().
+            </summary>
+            <param name="name">name of the content extension</param>
+            <param name="content">content data of the extension</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaEntry.GetGsaContent(System.String)">
+            <summary>
+            Retrieve the extension's content data having the input extension name.
+            GsaEntry does not support repeating extensions.  If there
+            are repeating extensions with the same name, there is no guarantee which
+            extension's content data will be returned.
+            </summary>
+            <param name="name">name of the extension</param>
+            <returns>value of the content data</returns>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaEntry.RemoveGsaContent(System.String)">
+            <summary>
+            Removes all extension data having the input extension name.
+            Because GsaEntry does not support repeating extensions, 
+            all extensions having the input name will be removed. 
+            </summary>
+            <param name="name">all extension having this input name will be removed</param>
+        </member>
+        <member name="M:Google.GData.Gsa.GsaEntry.GetAllGsaContents">
+            <summary>
+            Retrieves all content data of this GsaEntry's extensions.
+            The content data is stored in a Dictionary, with the Dictionary key being the extension names.
+            Because GsaEntry does not support repeating extensions,
+            if there are repeating extensions in the entry, there is no guarantee
+            which extension's content data will be put into the map, and which
+            will be excluded.
+            </summary>
+            <returns>Dictionary of strings containing the entry's extension content data</returns>
+        </member>
+    </members>
+</doc>

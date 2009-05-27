@@ -1,0 +1,75 @@
+<project name="aclclient" default="sample.aclclient.build" basedir=".">
+  <!-- Path containing core.xml -->
+  <dirname property="build_dir" file="${ant.file.aclclient}"/>
+  <import file="${build_dir}/core.xml"/>
+
+  <!--  ===================================================================== -->
+  <!--                 Build GData Aclclient library.                         -->
+  <!--  ===================================================================== -->
+
+  <property name="gdata-gsa.jar"
+    value="${build.jars}/gdata-gsa-${gsa.spec.version}.jar"/>
+
+  <property name="sample.aclclient.basedir"           value="${build}/sample/aclclient"/>
+  <property name="sample.aclclient.src.home"          value="${sample.aclclient.basedir}"/>
+  <property name="sample.aclclient.build.classes"     value="${sample.aclclient.basedir}/classes"/>
+  <property name="sample.aclclient.build.lib"         value="${sample.aclclient.basedir}/lib"/>
+  <property name="sample.aclclient.jar"               value="${sample.aclclient.build.lib}/aclclient.jar"/>
+  <property name="sample.aclclient.main"              value="sample.aclclient.AclClient"/>
+
+  <target name="sample.aclclient.clean"
+   description="Delete old build and dist directories">
+    <delete dir="${sample.aclclient.build.classes}"/>
+  </target>
+
+  <target name="sample.aclclient.dependencies">
+    <antcall target="template.require.service.jar">
+      <param name="template.service.name" value="gsa"/>
+      <param name="template.service.version" value="${gsa.spec.version}"/>
+    </antcall>
+  </target>
+
+  <path id="sample.aclclient.compile.classpath">
+    <pathelement location="${gdata-client.jar}"/>
+    <pathelement location="${gdata-gsa.jar}"/>
+  </path>
+
+  <!-- samples build -->
+  <target name="sample.aclclient.build"
+      depends="sample.aclclient.dependencies"
+      description="Create binary distribution">
+
+    <mkdir   dir="${sample.aclclient.build.lib}"/>
+    <mkdir   dir="${sample.aclclient.build.classes}"/>
+
+    <javac srcdir="${sample.aclclient.src.home}"
+           destdir="${sample.aclclient.build.classes}"
+           debug="${javac.debug}" debuglevel="${javac.debuglevel}"
+           deprecation="false"
+           optimize="true">
+        <classpath refid="sample.aclclient.compile.classpath"/>
+    </javac>
+
+    <jar jarfile="${sample.aclclient.jar}"
+         basedir="${sample.aclclient.build.classes}">
+      <manifest>
+        <attribute name="Main-Class" value="${sample.aclclient.main}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- samples run -->
+  <target name="sample.aclclient.run"
+          depends="sample.aclclient.build"
+          description="Runs the aclclient sample">
+
+    <java fork="true" classname="${sample.aclclient.main}">
+    	<arg line="${args}"/>
+      <classpath>
+        <path refid="sample.aclclient.compile.classpath"/>
+        <path location="${sample.aclclient.jar}"/>
+      </classpath>
+    </java>
+
+  </target>
+</project>
