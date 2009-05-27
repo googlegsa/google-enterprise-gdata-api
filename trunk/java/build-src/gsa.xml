@@ -1,0 +1,31 @@
+<project name="gsa" default="build.gsa" basedir=".">
+  <!-- Path containing gsa.xml -->
+  <dirname property="build_dir" file="${ant.file.gsa}"/>
+  <import file="${build_dir}/core.xml"/>
+
+  <!--  ===================================================================== -->
+  <!--                 Build GData Gsa library.                               -->
+  <!--  ===================================================================== -->
+
+  <property name="gdata-gsa.jar"
+    value="${build.jars}/gdata-gsa-${gsa.spec.version}.jar"/>
+
+  <target name="build.gsa" depends="core.build.core.client">
+    <antcall target="template.build.service">
+      <param name="template.service.name" value="gsa"/>
+      <param name="template.service.version" value="${gsa.spec.version}"/>
+      <param name="template.service.includes" value="com/google/enterprise/apis/client/**, **/appsforyourdomain/**"/>
+      <param name="template.service.excludes" value="none"/>
+      <param name="template.service.classpath" value="build.service.core.classpath"/>
+      <param name="template.service.name" value="gsa"/>
+    </antcall>
+  </target>
+
+  <target name="clean.gsa">
+    <antcall target="template.clean.service">
+      <param name="template.service.name" value="gsa"/>
+    </antcall>
+  </target>
+
+
+</project>

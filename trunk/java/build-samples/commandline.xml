@@ -1,0 +1,75 @@
+<project name="commandline" default="sample.commandline.build" basedir=".">
+  <!-- Path containing core.xml -->
+  <dirname property="build_dir" file="${ant.file.commandline}"/>
+  <import file="${build_dir}/core.xml"/>
+
+  <!--  ===================================================================== -->
+  <!--                 Build GData Commandline library.                       -->
+  <!--  ===================================================================== -->
+
+  <property name="gdata-gsa.jar"
+    value="${build.jars}/gdata-gsa-${gsa.spec.version}.jar"/>
+
+  <property name="sample.commandline.basedir"           value="${build}/sample/commandline"/>
+  <property name="sample.commandline.src.home"          value="${sample.commandline.basedir}"/>
+  <property name="sample.commandline.build.classes"     value="${sample.commandline.basedir}/classes"/>
+  <property name="sample.commandline.build.lib"         value="${sample.commandline.basedir}/lib"/>
+  <property name="sample.commandline.jar"               value="${sample.commandline.build.lib}/commandline.jar"/>
+  <property name="sample.commandline.main"              value="sample.commandline.GsaCommandLine"/>
+
+  <target name="sample.commandline.clean"
+   description="Delete old build and dist directories">
+    <delete dir="${sample.commandline.build.classes}"/>
+  </target>
+
+  <target name="sample.commandline.dependencies">
+    <antcall target="template.require.service.jar">
+      <param name="template.service.name" value="gsa"/>
+      <param name="template.service.version" value="${gsa.spec.version}"/>
+    </antcall>
+  </target>
+
+  <path id="sample.commandline.compile.classpath">
+    <pathelement location="${gdata-client.jar}"/>
+    <pathelement location="${gdata-gsa.jar}"/>
+  </path>
+
+  <!-- samples build -->
+  <target name="sample.commandline.build"
+      depends="sample.commandline.dependencies"
+      description="Create binary distribution">
+
+    <mkdir   dir="${sample.commandline.build.lib}"/>
+    <mkdir   dir="${sample.commandline.build.classes}"/>
+
+    <javac srcdir="${sample.commandline.src.home}"
+           destdir="${sample.commandline.build.classes}"
+           debug="${javac.debug}" debuglevel="${javac.debuglevel}"
+           deprecation="false"
+           optimize="true">
+        <classpath refid="sample.commandline.compile.classpath"/>
+    </javac>
+
+    <jar jarfile="${sample.commandline.jar}"
+         basedir="${sample.commandline.build.classes}">
+      <manifest>
+        <attribute name="Main-Class" value="${sample.commandline.main}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- samples run -->
+  <target name="sample.commandline.run"
+          depends="sample.commandline.build"
+          description="Runs the commandline sample">
+
+    <java fork="true" classname="${sample.commandline.main}">
+    	<arg line="${args}"/>  
+    	<classpath>
+        <path refid="sample.commandline.compile.classpath"/>
+        <path location="${sample.commandline.jar}"/>
+      </classpath>
+    </java>
+
+  </target>
+</project>

@@ -1,0 +1,38 @@
+<!--
+
+    Ant script to generate the GData java libraries and samples.
+    To build, run 'ant -f <path-to-this-file>'.
+
+-->
+
+<project name="gdata-src" default="build" basedir=".">
+
+  <!-- Include core build script -->
+  <import file="build-src/core.xml"/>
+
+  <!-- Include property specific build scripts -->
+  <import file="build-src/gsa.xml"/>
+
+
+<!--  ===================================================================== -->
+<!--                      Build Library                                     -->
+<!--  ===================================================================== -->
+
+  <!-- Build core and service specific libraries -->
+  <target name="build">
+    <antcall target="core.build.core"/>
+    <antcall target="gsa.build.gsa"/>
+  </target>
+
+  <target name="clean">
+    <antcall target="core.clean.core"/>
+    <antcall target="gsa.clean.gsa"/>
+  </target>
+
+
+<!--  ===================================================================== -->
+<!--                      Global target                                     -->
+<!--  ===================================================================== -->
+  <target name="all" depends="clean,build"/>
+
+</project>

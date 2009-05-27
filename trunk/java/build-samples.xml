@@ -1,0 +1,39 @@
+<!--
+
+    Ant script to generate the GData API samples.
+    To build, run 'ant -f <path-to-this-file>'.
+
+-->
+
+<project name="gdata-samples" default="build" basedir=".">
+
+
+  <import file="build-samples/core.xml"/>
+  <import file="build-samples/dashboard.xml"/>
+  <import file="build-samples/commandline.xml"/>
+	<import file="build-samples/aclclient.xml"/>
+
+<!--  ===================================================================== -->
+<!--                      Build samples                                     -->
+<!--  ===================================================================== -->
+
+  <target name="build">
+    <antcall target="dashboard.sample.dashboard.build"/>
+    <antcall target="commandline.sample.commandline.build"/>
+  	<antcall target="aclclient.sample.aclclient.build"/>
+  </target>
+
+  <target name="clean">
+    <antcall target="dashboard.sample.dashboard.clean"/>
+    <antcall target="commandline.sample.commandline.clean"/>
+  	<antcall target="aclclient.sample.aclclient.clean"/>
+  </target>
+
+
+<!--  ===================================================================== -->
+<!--                      Global target                                     -->
+<!--  ===================================================================== -->
+  <target name="all" depends="clean,build"
+   description="Rebuild samples"/>
+
+</project>

@@ -1,0 +1,74 @@
+<project name="dashboard" default="sample.dashboard.build" basedir=".">
+  <!-- Path containing core.xml -->
+  <dirname property="build_dir" file="${ant.file.dashboard}"/>
+  <import file="${build_dir}/core.xml"/>
+
+  <!--  ===================================================================== -->
+  <!--                 Build GData Dashboard library.                            -->
+  <!--  ===================================================================== -->
+
+  <property name="gdata-gsa.jar"
+    value="${build.jars}/gdata-gsa-${gsa.spec.version}.jar"/>
+
+  <property name="sample.dashboard.basedir"           value="${build}/sample/dashboard"/>
+  <property name="sample.dashboard.src.home"          value="${sample.dashboard.basedir}"/>
+  <property name="sample.dashboard.build.classes"     value="${sample.dashboard.basedir}/classes"/>
+  <property name="sample.dashboard.build.lib"         value="${sample.dashboard.basedir}/lib"/>
+  <property name="sample.dashboard.jar"               value="${sample.dashboard.build.lib}/dashboard.jar"/>
+  <property name="sample.dashboard.main"              value="sample.dashboard.DashMainForm"/>
+
+  <target name="sample.dashboard.clean"
+   description="Delete old build and dist directories">
+    <delete dir="${sample.dashboard.build.classes}"/>
+  </target>
+
+  <target name="sample.dashboard.dependencies">
+    <antcall target="template.require.service.jar">
+      <param name="template.service.name" value="gsa"/>
+      <param name="template.service.version" value="${gsa.spec.version}"/>
+    </antcall>
+  </target>
+
+  <path id="sample.dashboard.compile.classpath">
+    <pathelement location="${gdata-client.jar}"/>
+    <pathelement location="${gdata-gsa.jar}"/>
+  </path>
+
+  <!-- samples build -->
+  <target name="sample.dashboard.build"
+      depends="sample.dashboard.dependencies"
+      description="Create binary distribution">
+
+    <mkdir   dir="${sample.dashboard.build.lib}"/>
+    <mkdir   dir="${sample.dashboard.build.classes}"/>
+
+    <javac srcdir="${sample.dashboard.src.home}"
+           destdir="${sample.dashboard.build.classes}"
+           debug="${javac.debug}" debuglevel="${javac.debuglevel}"
+           deprecation="false"
+           optimize="true">
+        <classpath refid="sample.dashboard.compile.classpath"/>
+    </javac>
+
+    <jar jarfile="${sample.dashboard.jar}"
+         basedir="${sample.dashboard.build.classes}">
+      <manifest>
+        <attribute name="Main-Class" value="${sample.dashboard.main}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- samples run -->
+  <target name="sample.dashboard.run"
+          depends="sample.dashboard.build"
+          description="Runs the dashboard sample">
+
+    <java fork="true" classname="${sample.dashboard.main}">
+        <classpath>
+        <path refid="sample.dashboard.compile.classpath"/>
+        <path location="${sample.dashboard.jar}"/>
+      </classpath>
+    </java>
+
+  </target>
+</project>
