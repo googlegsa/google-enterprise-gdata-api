@@ -47,8 +47,8 @@ public class Terms {
   public static final String FEED_STATUS = "status";
   public static final String FEED_SYNONYM = "synonym";
   public static final String FEED_PREFIXSCORER = "prefixScorer";
-
   public static final String FEED_POLICY_ACLS = "policyAcls";
+  public static final String FEED_SUGGEST = "suggest";
 
   /** Here are the String literals for entry names. */
 
@@ -72,6 +72,8 @@ public class Terms {
   public static final String ENTRY_SERVING_STATUS = "servingStatus";
   public static final String ENTRY_SHUTDOWN = "shutdown";
   public static final String ENTRY_SYSTEM_STATUS = "systemStatus";
+  public static final String ENTRY_UAR_DATA = "userAddedResults";
+  public static final String ENTRY_SUGGEST_BLACKLIST = "suggestBlacklist";
 
   /** Here are the String literals for property names in the entries. */
 
@@ -108,7 +110,7 @@ public class Terms {
   public static final String PROPERTY_NUM_RETRIEVAL_ERRORS = "numRetrievalErrors";
   public static final String PROPERTY_OVERALL_HEALTH = "overallHealth";
   public static final String PROPERTY_QUERIES_PER_MINUTE = "queriesPerMinute";
-  public static final String PROPERTY_SEARCH_LATENCY_IN_MS = "searchLatency";
+  public static final String PROPERTY_SEARCH_LATENCY_IN_SEC = "searchLatency";
   public static final String PROPERTY_RAID_HEALTH = "raidHealth";
   public static final String PROPERTY_SERVED_URLS = "servedURLs";
   public static final String PROPERTY_TIME_STAMP = "timeStamp";
@@ -167,13 +169,19 @@ public class Terms {
   public static final String PROPERTY_BACKWARD_LINKS = "backwardLinks";
   public static final String PROPERTY_CACHED = "isCached";
   public static final String PROPERTY_COLLECTION_LIST = "collectionList";
+  public static final String PROPERTY_CRAWL_HISTORY = "crawlHistory";
   public static final String PROPERTY_CRAWLDIAG_CRWALSTATE = "crawlState";
   public static final String PROPERTY_CRAWLDIAG_URIAT = "uriAt";
   public static final String PROPERTY_CRAWLDIAG_STATE = "docState";
   public static final String PROPERTY_CRAWLDIAG_IS_CS_ERROR = "isCookieServerError";
   public static final String PROPERTY_DOC_DATE = "date";
   public static final String PROPERTY_DOC_LASTMOD_DATE = "lastModifiedDate";
+  public static final String PROPERTY_LATEST_ON_DISK = "latestOnDisk";
   public static final String PROPERTY_FORWARD_LINKS = "forwardLinks";
+  public static final String PROPERTY_CRAWL_FREQUENCY = "crawlFrequency";
+  public static final String PROPERTY_CONTENT_TYPE = "contentType";
+  public static final String PROPERTY_CONTENT_SIZE = "contentSize";
+  public static final String PROPERTY_CURRENTLY_INFLIGHT = "currentlyInflight";
 
   // contentStatistics related property names
   public static final String PROPERTY_MAX_SIZE = "maxSize";
@@ -236,11 +244,19 @@ public class Terms {
   // shutdown related property names
   public static final String PROPERTY_COMMAND = "command";
   public static final String PROPERTY_RUNNING_STATUS = "runningStatus";
-
-
   
   public static final String PROPERTY_POLICY_ACL = "acl";
-  
+
+  // Property for UAR Gdata API
+  public static final String PROPERTY_UAR_DATA = "uarData";
+  public static final String PROPERTY_UAR_QUERY = "query";
+  public static final String PROPERTY_UAR_URL = "url";
+  public static final String PROPERTY_UAR_TITLE = "title";
+  public static final String PROPERTY_UAR_USERNAME = "username";
+
+  // Suggest related property names.
+  public static final String PROPERTY_SUGGEST_BLACKLIST = "suggestBlacklist";
+
   /** Here are some static, pre-defined property content values. */
 
   public static final String VALUE_DELETE = "delete";
@@ -306,4 +322,5 @@ public class Terms {
   public static final String ERROR_ENTRY_ALREADY_EXIST = "EntryAlreadyExist";
   public static final String ERROR_LICENSE_LIMIT = "LicenseLimit";
   public static final String ERROR_PERMISSION_DENIED = "PermissionDenied";
+
 }
