@@ -1,0 +1,10 @@
+﻿Notes for v1.0.1
+----------------
+Jan 15, 2010
+o  Fixed issue-7 (http://code.google.com/p/google-enterprise-gdata-api/issues/detail?id=7)
+   where XML characters inside any content were getting double escaped.
+
+Notes for v1.0.0
+----------------
+May, 2009
+o  Initial release
