@@ -102,17 +102,7 @@ namespace Google.GData.Gsa
                     throw new ArgumentException("GsaContent name can not found in this name space");
                 }
                 gsa.ContentName = node.Attributes[PropertyName].Value;
-
-                string escaped = node.InnerText;
-                if (escaped == null)
-                {
-                    gsa.ContentValue = "";
-                }
-                else
-                {
-                    gsa.ContentValue = UnescapeXml(escaped);
-                }
-
+                gsa.ContentValue = node.InnerText == null ? "" : node.InnerText;
             }
             return gsa;
         }
@@ -132,8 +122,7 @@ namespace Google.GData.Gsa
 
                 if (Utilities.IsPersistable(this.ContentValue))
                 {
-                    string escaped = EscapeXml(this.ContentValue);
-                    writer.WriteString(escaped);
+                    writer.WriteString(this.ContentValue);
                 }
                 writer.WriteEndElement();
             }
@@ -163,137 +152,5 @@ namespace Google.GData.Gsa
         {
             get { return "gsa"; }
         }
-
-        //////////////////////////////////////////////////////////////////////
-        /// <summary>Escapes XML-specific characters in a string.</summary>
-        /// <param name="inString">input string, which may or may not contain XML special characters</param>
-        /// <returns>String with all special characters escaped</returns>
-        //////////////////////////////////////////////////////////////////////
-        private string EscapeXml(string inString)
-        {
-            if (inString == null)
-            {
-                return null;
-            }
-
-            StringBuilder builder = new StringBuilder();
-            char[] inputArray = inString.ToCharArray();
-
-            for (int i = 0; i < inputArray.Length; i++)
-            {
-                if (inputArray[i] == '&')
-                {
-                    builder.Append("&amp;");
-                }
-                else if (inputArray[i] == '<')
-                {
-                    builder.Append("&lt;");
-                }
-                else if (inputArray[i] == '>')
-                {
-                    builder.Append("&gt;");
-                }
-                else if (inputArray[i] == '\'')
-                {
-                    builder.Append("&apos;");
-                }
-                else if (inputArray[i] == '"')
-                {
-                    builder.Append("&quot;");
-                }
-                else
-                {
-                    builder.Append(inputArray[i]);
-                }
-            }
-            return builder.ToString();
-        }
-
-        //////////////////////////////////////////////////////////////////////
-        /// <summary>Un-escapes XML escape sequences in a string.</summary>
-        /// <param name="xmlString">input string, which may or may not contain XML escape sequences</param>
-        /// <returns>String with all escape sequences un-escaped</returns>
-        //////////////////////////////////////////////////////////////////////
-        private string UnescapeXml(string xmlString)
-        {
-            int index = xmlString.IndexOf('&');
-            if (index < 0)
-            {
-                return xmlString;
-            }
-            char[] inputArray = xmlString.ToCharArray();
-            char[] outputArray = new char[inputArray.Length];
-            Array.Copy(inputArray, 0, outputArray, 0, index);
-
-            int pos = index;
-            for (int i = index; i < inputArray.Length; )
-            {
-                if (inputArray[i] != '&')
-                {
-                    outputArray[pos++] = inputArray[i++];
-                    continue;
-                }
-                int j = i + 1;
-
-                // Scan until we find a char that is not valid for this sequence.
-                for (; j < inputArray.Length; j++)
-                {
-                    char ch = inputArray[j];
-                    if (!Char.IsLetter(ch))
-                    {
-                        break;
-                    }
-                }
-
-                bool replaced = false;
-                if (j < inputArray.Length && inputArray[j] == ';')
-                {
-                    string original = new string(inputArray, i, j - i);
-                    char replaceWith = char.MinValue;
-                    if (original.Equals("&amp"))
-                    {
-                        replaceWith = '&';
-                    }
-                    else if (original.Equals("&lt"))
-                    {
-                        replaceWith = '<';
-                    }
-                    else if (original.Equals("&gt"))
-                    {
-                        replaceWith = '>';
-                    }
-                    else if (original.Equals("&apos"))
-                    {
-                        replaceWith = '\'';
-                    }
-                    else if (original.Equals("&quot"))
-                    {
-                        replaceWith = '"';
-                    }
-
-                    if (replaceWith != char.MinValue)
-                    {
-                        outputArray[pos++] = replaceWith;
-                        replaced = true;
-                    }
-                    // Skip over ';'
-                    if (j < inputArray.Length && inputArray[j] == ';')
-                    {
-                        j++;
-                    }
-                }
-
-                if (!replaced)
-                {
-                    // Not a recognized escape sequence, leave as-is
-                    Array.Copy(inputArray, i, outputArray, pos, j - i);
-                    pos += j - i;
-                }
-                i = j;
-            }
-
-            return new string(outputArray, 0, pos);
-        }
-
     }
 }
