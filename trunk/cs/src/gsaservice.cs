@@ -122,13 +122,11 @@ namespace Google.GData.Gsa
         }
 
         /// <summary>
-        /// Double encode the string.
+        /// URI encode the string.
         /// </summary>
-        private string UriDoubleEncode(string origin)
+        private string UriSingleEncode(string origin)
         {
-            string encoded = Utilities.UriEncodeReserved(origin);
-            string doubleEncoded = Utilities.UriEncodeReserved(encoded);
-            return doubleEncoded;
+            return Utilities.UriEncodeReserved(origin);
         }
 
         /// <summary>
@@ -161,9 +159,9 @@ namespace Google.GData.Gsa
             foreach (KeyValuePair<string, string> q in queries)
             {
                 queryStr.Append(queryStr.Length != 0 ? '&' : '?');
-                queryStr.Append(UriDoubleEncode(q.Key));
+                queryStr.Append(UriSingleEncode(q.Key));
                 queryStr.Append("=");
-                queryStr.Append(UriDoubleEncode(q.Value));
+                queryStr.Append(UriSingleEncode(q.Value));
             }
             return gsaUrlStr + "/" + feedName + queryStr.ToString() ;
         }
@@ -180,7 +178,7 @@ namespace Google.GData.Gsa
             {
                 throw new ArgumentNullException("feed/entry is not specified");
             }
-            return gsaUrlStr + "/" + feedName + "/" + UriDoubleEncode(entryId);
+            return gsaUrlStr + "/" + feedName + "/" + UriSingleEncode(entryId);
         }
 
         /// <summary>
@@ -200,11 +198,11 @@ namespace Google.GData.Gsa
             foreach (KeyValuePair<string, string> q in queries)
             {
                 queryStr.Append(queryStr.Length != 0 ? '&' : '?');
-                queryStr.Append(UriDoubleEncode(q.Key));
+                queryStr.Append(UriSingleEncode(q.Key));
                 queryStr.Append("=");
-                queryStr.Append(UriDoubleEncode(q.Value));
+                queryStr.Append(UriSingleEncode(q.Value));
             }
-            return gsaUrlStr + "/" + feedName + "/" + UriDoubleEncode(entryId) + queryStr.ToString();
+            return gsaUrlStr + "/" + feedName + "/" + UriSingleEncode(entryId) + queryStr.ToString();
         }
 
         /// <summary>
